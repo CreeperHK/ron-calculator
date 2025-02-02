@@ -65,18 +65,16 @@ def can_win(tiles):
         [11,12,13,14,15,16,17,18,19],
         [21,22,23,24,25,26,27,28,29]
     ]
-    if tiles.count(1) >= 3 and tiles.count(9) >= 3:
-        nine_hand = nine_lantern(tiles, all_lantern[0])
-        if nine_hand == True:
-            return True
-    if tiles.count(11) >= 3 and tiles.count(19) >= 3:
-        nine_hand = nine_lantern(tiles, all_lantern[1])
-        if nine_hand == True:
-            return True
-    if tiles.count(21) >= 3 and tiles.count(29) >= 3:
-        nine_hand = nine_lantern(tiles, all_lantern[2])
-        if nine_hand == True:
-            return True
+    pairs = [(1, 9, 0), (11, 19, 1), (21, 29, 2)]
+    nine_hand = False
+
+    for a, b, idx in pairs:
+        if tiles.count(a) >= 3 and tiles.count(b) >= 3:
+            nine_hand = nine_lantern(tiles, all_lantern[idx])
+            break
+    
+    if nine_hand == True:
+        return True
 
     # 一般牌型
     for tile in list(tile_count):
@@ -91,7 +89,7 @@ def can_win(tiles):
     return False
 
 # 手牌萬子 (1-9)、筒子 (11-19)、索子 (21-29)、字牌 (31-37)
-hand = [21,21,21,22,23,24,25,26,27,28,29,29,29,27]  
+hand = [11,11,11,12,13,14,15,16,17,18,19,19,19,15]  
 
 print("手牌:", hand)
 if can_win(hand):
