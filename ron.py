@@ -10,6 +10,10 @@ def seven_pair(hand_card):
     seven = True if len(set(hand_card)) == 7 else False
     return seven
 
+def nine_lantern(hand_card, lantern):
+    # 九蓮寶燈特別判斷
+    return sorted(set(hand_card)) == sorted(lantern)
+
 def can_form_groups(tile_count):
     # 嘗試組成四個雀組
     for tile in sorted(tile_count.keys()):
@@ -51,9 +55,28 @@ def can_win(tiles):
         return True
 
     # 七對子牌型
-    seven_hand = seven_pair(hand)
+    seven_hand = seven_pair(tiles)
     if seven_hand == True:
         return True
+    
+    # 九蓮寶燈牌型
+    all_lantern = [
+        [1,2,3,4,5,6,7,8,9],
+        [11,12,13,14,15,16,17,18,19],
+        [21,22,23,24,25,26,27,28,29]
+    ]
+    if tiles.count(1) >= 3 and tiles.count(9) >= 3:
+        nine_hand = nine_lantern(tiles, all_lantern[0])
+        if nine_hand == True:
+            return True
+    if tiles.count(11) >= 3 and tiles.count(19) >= 3:
+        nine_hand = nine_lantern(tiles, all_lantern[1])
+        if nine_hand == True:
+            return True
+    if tiles.count(21) >= 3 and tiles.count(29) >= 3:
+        nine_hand = nine_lantern(tiles, all_lantern[2])
+        if nine_hand == True:
+            return True
 
     # 一般牌型
     for tile in list(tile_count):
@@ -68,7 +91,7 @@ def can_win(tiles):
     return False
 
 # 手牌萬子 (1-9)、筒子 (11-19)、索子 (21-29)、字牌 (31-37)
-hand = [11,11,15,15,16,16,19,19,21,21,31,31,35,35]
+hand = [21,21,21,22,23,24,25,26,27,28,29,29,29,27]  
 
 print("手牌:", hand)
 if can_win(hand):
